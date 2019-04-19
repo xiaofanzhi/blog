@@ -1,2 +1,2 @@
 # fzx-blog
-基于flask的博客
+基于flask博客构建
