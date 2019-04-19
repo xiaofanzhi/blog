@@ -2,6 +2,7 @@ from flask import Flask
 from .ext import db, login_manager, moment, bootstrap
 from flask_script import Manager
 from flask_migrate import Migrate,MigrateCommand
+from flask_babelex import Babel
 
 
 
@@ -32,12 +33,12 @@ def creat_app():
     login_manager.login_message = '请先登录'
 
 
-    # # admin 注册
-    # from .admin import admin
-    # admin.init_app(app)
-    # # 汉化
-    # babel = Babel(app)
-    # babel.init_app(app)
+    # admin 注册
+    from .admin import admin
+    admin.init_app(app)
+    # 汉化
+    babel = Babel(app)
+    babel.init_app(app)
 
     return app
 

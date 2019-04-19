@@ -1,0 +1,28 @@
+<link rel="stylesheet" type="text/css"
+      href="{{ url_for('static', filename='admin/editormd/css/editormd.min.css') }}">
+<script src="{{ url_for('static', filename='admin/editormd/editormd.min.js') }}" type="text/javascript"></script>
+<script type="text/javascript">
+
+    var Editor;
+    $(document).ready(function () {
+        $('#content').parent().attr("id", "editormd");
+    });
+
+    $(function () {
+        Editor = editormd("editormd", {
+            {#width: "100%",#}
+            emoji: true,//emoji表情，默认关闭
+            height: 640,
+            syncScrolling: "single",
+            saveHTMLToTextarea : true,
+            path:"{{ url_for('static', filename='admin/editormd/lib/') }}",
+            {#path: "/static/admin/editormd/lib/",#}
+            imageUpload: true,
+            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            {#imageUploadURL: "/admin/article/editor_pic"#}
+            imageUploadURL:"{{ url_for('article.editor_pic') }}"
+
+        });
+    });
+
+</script>

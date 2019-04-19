@@ -17,6 +17,7 @@ flask-moment = "*"
 flask-bootstrap = "*"
 flask-migrate = "*"
 flask-script = "*"
+flask-babelex = "*"
 
 [requires]
 python_version = "3.6"
