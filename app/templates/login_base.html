@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html >
+
+{% block title %}
+<title>登录</title>
+{% endblock %}
+{% block head %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<!-- Custom Theme files -->
+
+<link href="{{ url_for('static',filename='css/font-awesom/css/font-awesome.css' )}}" rel="stylesheet" type="text/css" media="all">
+<link href="{{ url_for('static',filename='css/snow.css' )}}" rel="stylesheet" type="text/css" media="all">
+<link href="{{ url_for('static',filename='css/style.css' )}}" rel="stylesheet" type="text/css" media="all">
+<!-- //Custom Theme files -->
+<!-- web font -->
+<link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+{% endblock head %}
+
+{% block body %}
+<div class='container'>
+    <div class="row">
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                {% if message %}
+                    <div class="alert alert-warning" role="alert">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+        {% endwith %}
+        {% if form and form.errors %}
+            {% for key, error in form.errors.items() %}
+                <div class="alert alert-warning" role="alert">{{ error }}</div>
+            {% endfor %}
+        {% endif %}
+    </div>
+<div class="top-buttons-agileinfo">
+<a href="{{ url_for('web.login') }}">Sign In</a><a href="{{ url_for('web.register') }}" class="active">Sign Up</a>
+</div>
+<div class="snow-container">
+    <div class="snow foreground"></div>
+    <div class="snow foreground layered"></div>
+    <div class="snow middleground"></div>
+    <div class="snow middleground layered"></div>
+    <div class="snow background"></div>
+    <div class="snow background layered"></div>
+</div>
+
+    {% block copyright %}
+    <div class="copyright w3-agile">
+		<p> © 2017  fzx</p>
+	</div>
+    {% endblock copyright %}
+
+	<!-- //copyright -->
+    <script src="{{ url_for('static', filename='3rd/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='3rd/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery-2.1.4.min.js') }}"></script>
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+
+
+
+
+{% endblock body %}
+</div>
+</html >
+
+

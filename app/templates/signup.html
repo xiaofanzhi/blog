@@ -1,0 +1,38 @@
+
+{% extends 'login_base.html' %}
+
+{% block title %}
+    <title>注册</title>
+{% endblock title %}
+{% block head %}
+{{super()}}
+{% endblock head %}
+
+
+{% block body %}
+{{ super() }}
+
+
+
+<div class="main-agileits">
+<!--form-stars-here-->
+		<div class="form-w3-agile">
+			<h2 class="sub-agileits-w3layouts">注 册</h2>
+			<form action="{{ url_for('web.register') }}" method="post">
+					<input type="text" name="nick_name" placeholder="姓名" required=""
+                           value="{{ form.data['nick_name'] | default('',true) }}"/>
+					<input type="text" name="email" placeholder="邮箱" required=""
+                           value="{{ form.data['email'] | default('',true) }}"/>
+					<input type="password" name="password" placeholder="密码" required="" />
+				<div class="submit-w3l">
+					<input type="submit" value="注册">
+				</div>
+			</form>
+		</div>
+		</div>
+<!--//form-ends-here-->
+<!-- copyright -->
+	{% block copyright %}
+    {{ super() }}
+    {% endblock copyright %}
+{% endblock body %}

@@ -1,0 +1,39 @@
+{% extends 'login_base.html' %}
+
+{% block title %}
+    <title>登录</title>
+{% endblock title %}
+
+{% block head %}
+{{super()}}
+{% endblock head %}
+
+
+{% block body %}
+{{ super() }}
+
+
+
+<div class="main-agileits">
+<!--form-stars-here-->
+		<div class="form-w3-agile">
+			<h2 class="sub-agileits-w3layouts">登 录</h2>
+			<form action="{{ url_for('web.login') }}" method="post">
+					<input type="text" name="nick_name" placeholder="名称" required=""
+                    value="{{ form.data['nick_name'] | default('',true) }}"/>
+					<input type="password" name="password" placeholder="密码" required="" />
+					<a href="#" class="forgot-w3layouts">忘记密码 ?</a>
+				<div class="submit-w3l">
+					<input type="submit" value="登 录">
+				</div>
+				<p class="p-bottom-w3ls"><a href="signup.html">注册</a>没有账号.</p>
+			</form>
+		</div>
+		</div>
+<!--//form-ends-here-->
+<!-- copyright -->
+{% block copyright %}
+    {{ super() }}
+{% endblock copyright %}
+
+{% endblock body %}
