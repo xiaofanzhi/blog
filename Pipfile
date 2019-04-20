@@ -18,6 +18,13 @@ flask-bootstrap = "*"
 flask-migrate = "*"
 flask-script = "*"
 flask-babelex = "*"
+#正式不需要
+faker = "*"
+
+
+forgery-py = "*"
+bleach = "*"
+markdown = "*"
 
 [requires]
 python_version = "3.6"
