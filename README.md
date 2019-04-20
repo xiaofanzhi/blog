@@ -3,7 +3,7 @@
 
 
 
-`Flask 扩展插件`
+**`Flask 扩展插件`**
 
 - Flask-SQLAlchemy 数据库模型
 - Flask-Admin 后台管理
@@ -11,11 +11,11 @@
 
 
 
-`虚拟环境`
+**`虚拟环境`**
 
 开启 pipenv shell
 
-`数据库`
+**`数据库`**
 
 命令：export FLASK_APP=test.py （选定当前运行为test.py）
 
