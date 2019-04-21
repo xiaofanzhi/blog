@@ -47,7 +47,7 @@ class Article(Base):
     @property
     def link(self):
         # return url_for('web.article', id=self.id, _external=True)
-        return url_for('web.index', _external=True)
+        return url_for('web.article',id=self.id, _external=True)
 
     @property
     def month_and_day(self):
@@ -66,21 +66,21 @@ class Article(Base):
         return pattern_hasmore.search(self.body) is not None or \
                self.summary.find('...') >= 0
 
-    @staticmethod
-    def on_change_content(target, value, oldvalue, initiator):
-        target.content_html = markitup(value)
-
-        # TODO 有问题
-        def _format(_html):
-            return do_truncate(do_striptags(_html), length=200)
-
-        if target.summary is None or target.summary.strip() == '':
-            # 新增文章时，如果 summary 为空，则自动生成
-
-            _match = pattern_hasmore.search(value)
-            if _match is not None:
-                more_start = _match.start()
-                # target.summary = _format(markitup(value[:more_start]))
-                target.summary = markitup(value[:more_start])
-            else:
-                target.summary = target.body_html
+    # @staticmethod
+    # def on_change_content(target, value, oldvalue, initiator):
+    #     target.content_html = markitup(value)
+    #
+    #     # TODO 有问题
+    #     def _format(_html):
+    #         return do_truncate(do_striptags(_html), length=200)
+    #
+    #     if target.summary is None or target.summary.strip() == '':
+    #         # 新增文章时，如果 summary 为空，则自动生成
+    #
+    #         _match = pattern_hasmore.search(value)
+    #         if _match is not None:
+    #             more_start = _match.start()
+    #             # target.summary = _format(markitup(value[:more_start]))
+    #             target.summary = markitup(value[:more_start])
+    #         else:
+    #             target.summary = target.body_html
