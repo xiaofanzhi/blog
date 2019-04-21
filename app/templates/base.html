@@ -86,30 +86,18 @@
 
 
 
-{#                            <div class="widget widget_categories group">#}
-{#                                    <h3>分类</h3>#}
-{#                                    <ul>#}
-{#                                        {% for cate in category_lists_count() %}#}
-{##}
-{#                                            <li><a href="{{ cate["category"].link|e }}"#}
-{#                                                   title="">{{ cate["category"]|e }}</a>#}
-{#                                                ({{ cate["count"]|e }})#}
-{#                                            </li>#}
-{#                                        {% endfor %}#}
-{#                                    </ul>#}
-{#                                </div>#}
                             <div class="widget widget_categories group">
-   				                <h3>分类.</h3>
-   				                <ul>
-                                    <li><a href="#" title="">Wordpress</a> (2)</li>
-                                    <li><a href="#" title="">Ghost</a> (14)</li>
-                                    <li><a href="#" title="">Joomla</a> (5)</li>
-                                    <li><a href="#" title="">Drupal</a> (3)</li>
-                                    <li><a href="#" title="">Magento</a> (2)</li>
-                                    <li><a href="#" title="">Uncategorized</a> (9)</li>
-					            </ul>
-				            </div>
+                                    <h3>分类</h3>
+                                    <ul>
+                                        {% for cate in category_lists_count() %}
 
+                                            <li><a href="{{ cate["category"].link|e }}"
+                                                   title="">{{ cate["category"]|e }}</a>
+                                                ({{ cate["count"]|e }})
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
 
 {#                            <div class="widget widget_popular">#}
 {#                                    <h3>最新文章</h3>#}

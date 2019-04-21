@@ -27,20 +27,6 @@ def format_datetime(self, request, obj, fieldname, *args, **kwargs):
     return getattr(obj, fieldname).strftime("%Y-%m-%d %H:%M")
 
 
-def markitup(text):
-    """
-    把Markdown转换为HTML
-    """
-
-    # 删除与段落相关的标签，只留下格式化字符的标签
-    # allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
-    #                 'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
-    #                 'h1', 'h2', 'h3', 'p', 'img']
-    return bleach.linkify(markdown(text, ['extra'], output_format='html5'))
-    # return bleach.linkify(bleach.clean(
-    #     # markdown默认不识别三个反引号的code-block，需开启扩展
-    #     markdown(text, ['extra'], output_format='html5'),
-    #     tags=allowed_tags, strip=True))
 
 
 

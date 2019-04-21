@@ -3,7 +3,7 @@ from .ext import db, login_manager, moment, bootstrap
 from flask_script import Manager
 from flask_migrate import Migrate,MigrateCommand
 from flask_babelex import Babel
-
+from .view_model.processor import utility_processor
 
 
 def creat_app():
@@ -40,12 +40,17 @@ def creat_app():
     babel = Babel(app)
     babel.init_app(app)
 
+    app.context_processor(utility_processor)
+
     return app
 
 
 def register_blueprint(app):
     from app.web import web
     app.register_blueprint(web)
+
+
+
 
 
 

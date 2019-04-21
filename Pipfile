@@ -20,11 +20,9 @@ flask-script = "*"
 flask-babelex = "*"
 #正式不需要
 faker = "*"
-
-
 forgery-py = "*"
 bleach = "*"
-markdown = "*"
+markdown = "==2.6.11"
 
 [requires]
 python_version = "3.6"

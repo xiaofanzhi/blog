@@ -115,11 +115,13 @@ class ArticleAdmin(sqla.ModelView):
         if image_file and allowed_photo(image_file.filename):
             filename = secure_filename(image_file.filename)
             filename = str(datetime.date.today()) + '-' + random_str() + '-' + filename
+            a = current_app.config['SAVEPIC']
             image_file.save(os.path.join(current_app.config['SAVEPIC'], filename))
             data= {
                 'success': 1,
                 'message': '图片上传成功',
                 'url': url_for('web.image', name=filename)
+                # 'url': '/upload'+filename
             }
         else:
             data = {

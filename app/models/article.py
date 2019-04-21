@@ -1,15 +1,57 @@
+import bleach
+from markdown import markdown
 from app.models.base import Base
 from flask import current_app, request, url_for
 from flask_login import UserMixin
-from sqlalchemy import Column, Integer, String, Text, Boolean,DateTime
+from sqlalchemy import Column, Integer, String, Text, Boolean,DateTime,ForeignKey
 import re
 from  app.ext import db
 from .auth import User
 from datetime import datetime
-
+from jinja2.filters import do_striptags, do_truncate
 pattern_hasmore = re.compile(r'<!--more-->', re.I)
 
+def markitup(text):
+    """
+    把Markdown转换为HTML
+    """
 
+    # 删除与段落相关的标签，只留下格式化字符的标签
+    # allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
+    #                 'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
+    #                 'h1', 'h2', 'h3', 'p', 'img']
+    return bleach.linkify(markdown(text, ['extra'], output_format='html5'))
+    # return bleach.linkify(bleach.clean(
+    #     # markdown默认不识别三个反引号的code-block，需开启扩展
+    #     markdown(text, ['extra'], output_format='html5'),
+    #     tags=allowed_tags, strip=True))
+
+
+# 类别
+class Category(Base):
+    __tablename__ = 'categories'
+    id = Column(Integer,primary_key=True)
+    order = Column(Integer)
+    name = Column(String(128),unique=True)
+    parent_id = Column(Integer(), ForeignKey('categories.id'))
+    # parent = db.relationship('Category',
+    #                          primaryjoin='Category.parent_id == Category.id',
+    #                          remote_side=id, backref=db.backref("children"))
+    introduction = Column(Text, default=None)
+    articles = db.relationship('Article', backref='category', lazy='dynamic')
+
+    # 设置默认排序使用
+    __mapper_args__ = {'order_by': [name]}
+
+    @property
+    def link(self):
+        return url_for('web.category', id=self.id, _external=True)
+
+    @property
+    def count(self):
+        ls =db.session.query(Category.id).all()
+        cate_ids = [cate_id for cate_id in ls]
+        return Article.query.public().filter(Article.category_id.in_(cate_ids)).count()
 
 
 
@@ -32,10 +74,7 @@ class Article(Base):
 
     author_id = Column(Integer, db.ForeignKey(User.id))
 
-
-    # def __init__(self):
-    #     self.created = int(datetime.now().timestamp())
-
+    category_id = db.Column(db.Integer(), db.ForeignKey(Category.id), nullable=False)
 
 
     def __repr__(self):
@@ -66,21 +105,29 @@ class Article(Base):
         return pattern_hasmore.search(self.body) is not None or \
                self.summary.find('...') >= 0
 
-    # @staticmethod
-    # def on_change_content(target, value, oldvalue, initiator):
-    #     target.content_html = markitup(value)
-    #
-    #     # TODO 有问题
-    #     def _format(_html):
-    #         return do_truncate(do_striptags(_html), length=200)
-    #
-    #     if target.summary is None or target.summary.strip() == '':
-    #         # 新增文章时，如果 summary 为空，则自动生成
-    #
-    #         _match = pattern_hasmore.search(value)
-    #         if _match is not None:
-    #             more_start = _match.start()
-    #             # target.summary = _format(markitup(value[:more_start]))
-    #             target.summary = markitup(value[:more_start])
-    #         else:
-    #             target.summary = target.body_html
+    @staticmethod
+    def on_change_content(target, value, oldvalue, initiator):
+        target.content_html = markitup(value)
+
+        # TODO 有问题
+        def _format(_html):
+            return do_truncate(do_striptags(_html), length=200)
+
+        if target.summary is None or target.summary.strip() == '':
+            # 新增文章时，如果 summary 为空，则自动生成
+
+            _match = pattern_hasmore.search(value)
+            if _match is not None:
+                more_start = _match.start()
+                # target.summary = _format(markitup(value[:more_start]))
+                target.summary = markitup(value[:more_start])
+            else:
+                target.summary = target.body_html
+
+db.event.listen(Article.content, 'set', Article.on_change_content)
+
+
+
+
+
+
