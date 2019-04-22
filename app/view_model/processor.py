@@ -2,7 +2,7 @@ from app.models.article import Category
 
 
 def utility_processor():
-    def  category_lists():
+    def category_lists():
         '''
         列表
         '''
@@ -15,7 +15,7 @@ def utility_processor():
         返回栏目列表+数量
         """
         cate_list = Category.query.all()
-        return [{"category": cate.name, "count": cate.articles.count()} for cate in cate_list]
+        return [{"category": cate, "count": cate.articles.count()} for cate in cate_list]
 
     return dict(
         Category=Category,

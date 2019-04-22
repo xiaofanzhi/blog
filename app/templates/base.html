@@ -92,7 +92,7 @@
                                         {% for cate in category_lists_count() %}
 
                                             <li><a href="{{ cate["category"].link|e }}"
-                                                   title="">{{ cate["category"]|e }}</a>
+                                                   title="">{{ cate["category"].name|e }}</a>
                                                 ({{ cate["count"]|e }})
                                             </li>
                                         {% endfor %}

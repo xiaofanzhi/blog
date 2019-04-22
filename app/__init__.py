@@ -39,7 +39,11 @@ def creat_app():
     # 汉化
     babel = Babel(app)
     babel.init_app(app)
-
+    '''
+    app_context_processor在flask中被称作上下文处理器，借助app_context_processor
+    可以让所有自定义变量在模板中可见
+    函数的返回结果必须是dict，dict中的key将作为变量在所有模板中可见
+    '''
     app.context_processor(utility_processor)
 
     return app

@@ -42,6 +42,7 @@ class Category(Base):
 
     # 设置默认排序使用
     __mapper_args__ = {'order_by': [name]}
+    # 用于在主页面点击类别 定位到那个类别
 
     @property
     def link(self):

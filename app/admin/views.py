@@ -62,14 +62,15 @@ class UserAdmin(sqla.ModelView):
         return current_user.is_authenticated
 
 
+
 # 文章
 class ArticleAdmin(sqla.ModelView):
     create_template = "admin/model/a_create.html"
     edit_template = "admin/model/a_edit.html"
 
-    column_list = ('title','published','hits','summary','created','last_modified')
+    column_list = ('title','published','hits','summary','created','last_modified','category_id')
     # 不想显示的字段
-    form_excluded_columns = ('created','last_modified')
+    form_excluded_columns = ('last_modified')
 
     column_exclude_list = ('title',)
 
@@ -77,7 +78,7 @@ class ArticleAdmin(sqla.ModelView):
     column_formatters = dict(created=format_datetime)
 
     form_create_rules = (
-        'title', 'summary', 'published', 'content'
+        'title', 'summary', 'published','category','content'
     )
     form_edit_rules = form_create_rules
 
@@ -86,13 +87,14 @@ class ArticleAdmin(sqla.ModelView):
 
     column_labels = dict(
         title=('标题'),
-        # category=('分类'),
+        category_id=('分类'),
         # source=('来源'),
         # tags=('标签'),
         content=('正文'),
         summary=('简介'),
         published=('是否已发布'),
         created=('创建时间'),
+        last_modified = ('最近修改'),
         hits=('阅读数'),
     )
 
@@ -132,13 +134,13 @@ class ArticleAdmin(sqla.ModelView):
         return json.dumps(data)
 
     # 如果之后前台显示不了图片 可能是这处理有问题@expose('/image/<name>')
+    # 需要先做 def markitup(text): 页面才能识别 image标签
     @web.route('/image/<name>')
     def image(name):
         with open(os.path.join(current_app.config['SAVEPIC'], name), 'rb') as f:
             # with open('app/admin/article/edit/'+name ,'rb') as f:
             resp = Response(f.read(), mimetype="image/jpeg")
         return resp
-
 
     # on_model_change(form,model,is_created)     在模板改变后需要做的事情  admin 定义好的
     def on_model_change(self, form, model, is_created):
@@ -152,6 +154,19 @@ class ArticleAdmin(sqla.ModelView):
 
 
 
+class CategoryAdmin(sqla.ModelView):
+    column_list = ('id','name', 'introduction', 'order')
+    column_searchable_list = ('name',)
+    column_labels = dict(
+        name=('名称'),
+        order=('次序'),
+        introduction=('介绍'),
+    )
 
+    form_widget_args = {
+        'name': {'style': 'width:320px;'},
+    }
 
+    def is_accessible(self):
+        return login.current_user.is_authenticated
 
