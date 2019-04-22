@@ -115,26 +115,15 @@
                              </div>
 
 
-{#                             <div class="widget widget_tags">#}
-{#                                    <h3>标签</h3>#}
-{#                                    <div class="tagcloud group">#}
-{#                                        {% for tag in tag_lists() %}#}
-{#                                            <a href="{{ tag.link|e }}" title="{{ tag.name }}">{{ tag.name|e }}</a>#}
-{#                                        {% endfor %}#}
-{#                                    </div>#}
-{#                             </div>#}
-                                <div class="widget widget_tags">
-                                   <h3>Post Tags.</h3>
-                                   <div class="tagcloud group">
-                                            <a href="#">Corporate</a>
-                                            <a href="#">Onepage</a>
-                                            <a href="#">Agency</a>
-                                            <a href="#">Multipurpose</a>
-                                            <a href="#">Blog</a>
-                                            <a href="#">Landing Page</a>
-                                            <a href="#">Resume</a>
-                                   </div>
-                                </div>
+                             <div class="widget widget_tags">
+                                    <h3>标签</h3>
+                                    <div class="tagcloud group">
+                                        {% for tag in tag_lists() %}
+                                            <a href="{{ tag.link|e }}" title="{{ tag.name }}">{{ tag.name|e }}</a>
+                                        {% endfor %}
+                                    </div>
+                             </div>
+
 
 {#                                <div class="widget widget_popular">#}
 {#                                    <h3>热门文章</h3>#}

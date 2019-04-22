@@ -1,9 +1,11 @@
 import bleach
 from markdown import markdown
+from sqlalchemy.orm import relationship
+
 from app.models.base import Base
 from flask import current_app, request, url_for
 from flask_login import UserMixin
-from sqlalchemy import Column, Integer, String, Text, Boolean,DateTime,ForeignKey
+from sqlalchemy import Column, Integer, String, Text, Boolean,DateTime,ForeignKey,Table
 import re
 from  app.ext import db
 from .auth import User
@@ -56,13 +58,45 @@ class Category(Base):
 
 
 
+
+
+class Tag(Base):
+    """标签"""
+    __tablename__ = 'tags'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50), unique=True, index=True, nullable=False)
+
+    __mapper_args__ = {'order_by': [id.desc()]}
+
+    @property
+    def link(self):
+        return url_for('web.tag', name=self.name.lower(), _external=True)
+
+    @property
+    def count(self):
+        return Article.query.public().filter(Article.tags.any(id=self.id)).count()
+
+
+# Create M2M table
+# 多对多中间那张表
+article_tags_table = Table('article_tags',
+                            Base.metadata,
+                            Column('article_id', Integer(), ForeignKey('articles.id')),
+                            Column('tag_id', Integer(), ForeignKey('tags.id')))
+
+
+
+
+
+
 class Article(Base):
     __tablename__ = 'articles'
 
     # per_page = current_app.config['PER_PAGE']
 
     id = Column(Integer,primary_key=True,autoincrement=True)
-    title = Column(String(128),index=True)
+    title = Column(String(256),index=True)
     summary = Column(Text)
     published = Column(Boolean, default=True)
 
@@ -73,9 +107,12 @@ class Article(Base):
     created = Column(DateTime())
     last_modified = Column(DateTime())
 
-    author_id = Column(Integer, db.ForeignKey(User.id))
+    author_id = Column(Integer, ForeignKey(User.id))
 
-    category_id = db.Column(db.Integer(), db.ForeignKey(Category.id), nullable=False)
+    tags = relationship(Tag, secondary=article_tags_table, backref=db.backref("articles"))
+    category_id = Column(Integer(), ForeignKey(Category.id), nullable=False)
+
+
 
 
     def __repr__(self):
@@ -125,7 +162,26 @@ class Article(Base):
             else:
                 target.summary = target.body_html
 
+    @staticmethod
+    def before_insert(mapper, connection, target):
+        def _format(_html):
+            return do_truncate(do_striptags(_html), length=200)
+
+        value = target.content
+        if target.summary is None or target.summary.strip() == '':
+            # 新增文章时，如果 summary 为空，则自动生成
+
+            _match = pattern_hasmore.search(value)
+            if _match is not None:
+                more_start = _match.start()
+                target.summary = _format(markitup(value[:more_start]))
+            else:
+                target.summary = _format(target.body_html)
+
 db.event.listen(Article.content, 'set', Article.on_change_content)
+db.event.listen(Article, 'before_insert', Article.before_insert)
+
+
 
 
 

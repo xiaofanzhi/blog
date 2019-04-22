@@ -68,7 +68,7 @@ class ArticleAdmin(sqla.ModelView):
     create_template = "admin/model/a_create.html"
     edit_template = "admin/model/a_edit.html"
 
-    column_list = ('title','published','hits','summary','created','last_modified','category_id')
+    column_list = ('title','published','hits','tags','summary','created','last_modified','category_id')
     # 不想显示的字段
     form_excluded_columns = ('last_modified')
 
@@ -78,7 +78,7 @@ class ArticleAdmin(sqla.ModelView):
     column_formatters = dict(created=format_datetime)
 
     form_create_rules = (
-        'title', 'summary', 'published','category','content'
+        'title', 'summary', 'published','category','tags','content'
     )
     form_edit_rules = form_create_rules
 
@@ -89,7 +89,7 @@ class ArticleAdmin(sqla.ModelView):
         title=('标题'),
         category_id=('分类'),
         # source=('来源'),
-        # tags=('标签'),
+        tags=('标签'),
         content=('正文'),
         summary=('简介'),
         published=('是否已发布'),
