@@ -8,14 +8,14 @@
 
             <div class="entry-meta">
                 <ul>
-{#                    <li>{{ moment(article.created).fromNow() }}</li>#}
-{#                    <span class="meta-sep">&bull;</span>#}
-{#                    <li>{{ article.source }}</li>#}
-{#                    {% for tag in article.tags %}#}
-{#                        <span class="meta-sep">&bull;</span>#}
-{#                        <li><a href="{{ url_for('main.tag',name =tag.name ) }}" title="" rel="tag">{% if select_tag and select_tag.name == tag.name %} <mark>{{ tag.name }}</mark>{% else %}{{ tag.name }}{% endif %}</a>#}
-{#                        </li>#}
-{#                    {% endfor %}#}
+                    <li>{{ moment(article.created).fromNow() }}</li>
+                    <span class="meta-sep">&bull;</span>
+                    <li>{{ article.source.name }}</li>
+                    {% for tag in article.tags %}
+                        <span class="meta-sep">&bull;</span>
+                        <li><a href="{{ url_for('web.tag',name =tag.name ) }}" title="" rel="tag">{% if select_tag and select_tag.name == tag.name %} <mark>{{ tag.name }}</mark>{% else %}{{ tag.name }}{% endif %}</a>
+                        </li>
+                    {% endfor %}
                 </ul>
             </div>
 

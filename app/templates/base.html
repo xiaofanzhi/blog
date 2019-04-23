@@ -99,21 +99,16 @@
                                     </ul>
                                 </div>
 
-{#                            <div class="widget widget_popular">#}
-{#                                    <h3>最新文章</h3>#}
-{#                                    <ul class="link-list">#}
-{#                                        {% for article in get_latest_articles() %}#}
-{#                                            <li><a href="{{ article.link|e }}"#}
-{#                                                   title="{{ article.title }}">{{ article.title|e }}</a>#}
-{#                                            </li>#}
-{#                                        {% endfor %}#}
-{#                                    </ul>#}
-{#                                </div>#}
-                             <div class="widget widget_text group">
-					            <h3>Widget Text.</h3>
-   				                <p>Lorem ipsum Ullamco commodo laboris sit dolore commodo aliquip incididunt fugiat esse dolor aute fugiat minim eiusmod do velit labore fugiat officia ad sit culpa labore in consectetur sint cillum sint consectetur voluptate adipisicing Duis irure magna ut sit amet reprehenderit.</p>
-                             </div>
-
+                            <div class="widget widget_popular">
+                                    <h3>最新文章</h3>
+                                    <ul class="link-list">
+                                        {% for article in get_latest_articles() %}
+                                            <li><a href="{{ article.link|e }}"
+                                                   title="{{ article.title }}">{{ article.title|e }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
 
                              <div class="widget widget_tags">
                                     <h3>标签</h3>
@@ -125,24 +120,17 @@
                              </div>
 
 
-{#                                <div class="widget widget_popular">#}
-{#                                    <h3>热门文章</h3>#}
-{#                                    <ul class="link-list">#}
-{#                                        {% for article in get_top_articles() %}#}
-{#                                            <li><a href="{{ article.link|e }}"#}
-{#                                                   title="{{ article.title }}">{{ article.title|e }}</a>#}
-{#                                            </li>#}
-{#                                        {% endfor %}#}
-{#                                    </ul>#}
-{#                                </div>#}
                                 <div class="widget widget_popular">
-                                        <h3>Popular Post.</h3>
-                                       <ul class="link-list">
-                                          <li><a href="#">Sint cillum consectetur voluptate.</a></li>
-                                          <li><a href="#">Lorem ipsum Ullamco commodo.</a></li>
-                                          <li><a href="#">Fugiat minim eiusmod do.</a></li>
-                                       </ul>
+                                    <h3>热门文章</h3>
+                                    <ul class="link-list">
+                                        {% for article in get_top_articles() %}
+                                            <li><a href="{{ article.link|e }}"
+                                                   title="{{ article.title }}">{{ article.title|e }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
                                 </div>
+
                         </div>
    	                </div>
                  {% endblock %}
@@ -179,11 +167,11 @@
 
 
             {% block scripts %}
-{#                {{ moment.include_jquery() }}#}
-{#                {{ moment.include_moment() }}#}
+                {{ moment.include_jquery() }}
+                {{ moment.include_moment() }}
 
                 <!--使用中文,默认是英语的-->
-{#                {{ moment.lang("zh-CN") }}#}
+                {{ moment.lang("zh-CN") }}
                 <script src="{{ url_for('static', filename='js/modernizr.js', _external=True) }}"></script>
                 <script src="{{ url_for('static', filename='js/jquery-3.2.1.min.js', _external=True) }}"></script>
                 <script src="{{ url_for('static', filename='js/main.js', _external=True) }}"></script>

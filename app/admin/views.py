@@ -4,7 +4,7 @@ from flask_admin import expose
 from flask import  request, redirect, url_for, flash,current_app,Response
 from flask_login import current_user, login_user
 from werkzeug.utils import secure_filename
-
+from flask_babelex import lazy_gettext as _
 from app.admin.extras import allowed_photo, random_str,format_datetime
 from app.form.login_register import AdminLoginForm
 
@@ -68,17 +68,17 @@ class ArticleAdmin(sqla.ModelView):
     create_template = "admin/model/a_create.html"
     edit_template = "admin/model/a_edit.html"
 
-    column_list = ('title','published','hits','tags','summary','created','last_modified','category_id')
+    column_list = ('title','published','hits','tags','source','created','category')
     # 不想显示的字段
     form_excluded_columns = ('last_modified')
 
-    column_exclude_list = ('title',)
+    # column_exclude_list = ('title',)
 
     # 一个字典，格式化字段，定义字段的显示方式
     column_formatters = dict(created=format_datetime)
 
     form_create_rules = (
-        'title', 'summary', 'published','category','tags','content'
+        'title', 'summary', 'published','category','tags','source','content'
     )
     form_edit_rules = form_create_rules
 
@@ -87,8 +87,8 @@ class ArticleAdmin(sqla.ModelView):
 
     column_labels = dict(
         title=('标题'),
-        category_id=('分类'),
-        # source=('来源'),
+        category=('分类'),
+        source=('来源'),
         tags=('标签'),
         content=('正文'),
         summary=('简介'),
@@ -117,7 +117,6 @@ class ArticleAdmin(sqla.ModelView):
         if image_file and allowed_photo(image_file.filename):
             filename = secure_filename(image_file.filename)
             filename = str(datetime.date.today()) + '-' + random_str() + '-' + filename
-            a = current_app.config['SAVEPIC']
             image_file.save(os.path.join(current_app.config['SAVEPIC'], filename))
             data= {
                 'success': 1,
@@ -181,6 +180,25 @@ class TagAdmin(sqla.ModelView):
         name=('名称'),
         articles = ('对应文章')
     )
+
+    form_widget_args = {
+        'name': {'style': 'width:320px;'},
+    }
+
+    def is_accessible(self):
+        return login.current_user.is_authenticated
+
+
+class SourceAdmin(sqla.ModelView):
+    column_list = ('id','name')
+    column_searchable_list = ('name',)
+
+    column_labels = dict(
+        name=('名称'),
+        articles=('对应文章')
+    )
+
+    form_excluded_columns = ('articles',)
 
     form_widget_args = {
         'name': {'style': 'width:320px;'},

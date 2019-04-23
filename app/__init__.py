@@ -4,7 +4,7 @@ from flask_script import Manager
 from flask_migrate import Migrate,MigrateCommand
 from flask_babelex import Babel
 from .view_model.processor import utility_processor
-
+from app.models import *
 
 def creat_app():
     app = Flask(__name__)
@@ -15,7 +15,7 @@ def creat_app():
     db.create_all(app=app)
 
     register_blueprint(app)
-
+    moment.init_app(app)
 
 
     # 让python支持命令行工作

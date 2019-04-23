@@ -1,5 +1,6 @@
 import bleach
 from markdown import markdown
+from pip._internal.utils.misc import enum
 from sqlalchemy.orm import relationship
 
 from app.models.base import Base
@@ -57,7 +58,11 @@ class Category(Base):
         return Article.query.public().filter(Article.category_id.in_(cate_ids)).count()
 
 
+    def __repr__(self):
+        return '<Category %r>' % self.name
 
+    def __str__(self):
+        return self.name
 
 
 class Tag(Base):
@@ -77,6 +82,11 @@ class Tag(Base):
     def count(self):
         return Article.query.public().filter(Article.tags.any(id=self.id)).count()
 
+    def __repr__(self):
+        return '<Tag %r>' % self.name
+
+    def __str__(self):
+        return self.name
 
 # Create M2M table
 # 多对多中间那张表
@@ -86,6 +96,40 @@ article_tags_table = Table('article_tags',
                             Column('tag_id', Integer(), ForeignKey('tags.id')))
 
 
+
+class Source(Base):
+    __tablename__ = 'sources'
+    id = Column(Integer,primary_key=True,autoincrement=True)
+    name = Column(String(128),unique=True)
+    articles = relationship('Article', backref='source', lazy='dynamic')
+
+    @staticmethod
+    def insert_sources():
+        sources= ('原创','转载','翻译')
+        for i in sources:
+            source = Source.query.filter_by(name=i).first()
+            if source is None:
+                source = Source(name=i)
+            db.session.add(source)
+        db.session.commit()
+
+    __mapper_args__ = {'order_by': [name]}
+
+    @property
+    def link(self):
+        return url_for('web.source', id=self.id, _external=True)
+
+    @property
+    def count(self):
+        return Article.query.public().filter(Article.source_id.in_(id=self.id)).count()
+
+
+
+    def __repr__(self):
+        return '<Source %r>' % self.name
+
+    def __str__(self):
+        return self.name
 
 
 
@@ -111,7 +155,7 @@ class Article(Base):
 
     tags = relationship(Tag, secondary=article_tags_table, backref=db.backref("articles"))
     category_id = Column(Integer(), ForeignKey(Category.id), nullable=False)
-
+    source_id = Column(Integer, ForeignKey(Source.id), nullable=False, )
 
 
 
