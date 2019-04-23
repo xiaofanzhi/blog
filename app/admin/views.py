@@ -170,3 +170,21 @@ class CategoryAdmin(sqla.ModelView):
     def is_accessible(self):
         return login.current_user.is_authenticated
 
+
+# 标签
+class TagAdmin(sqla.ModelView):
+    column_list = ('id','name','articles')
+    column_searchable_list = ('name',)
+
+    column_labels = dict(
+        id = ('id号'),
+        name=('名称'),
+        articles = ('对应文章')
+    )
+
+    form_widget_args = {
+        'name': {'style': 'width:320px;'},
+    }
+
+    def is_accessible(self):
+        return login.current_user.is_authenticated
