@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block main %}
+    {{ super() }}
+    <h2 style="text-align: center;">
+        个人简介
+    </h2>
+    <p style="text-align:center;"><img src="{{ url_for('static', filename='images/fzx.jpeg') }}" style="border-radius:50%;width:100px"></p>
+    <p style="text-align:center;">爱生活.爱编程.爱运动</p>
+    <p style="text-align:center;">Endeavor</p>
+    <br/><br/><br/><br/><br/>
+
+    <h2>
+        联系我
+    </h2>
+    <ul>
+        <li>
+            <a href="https://github.com/xiaofanzhi" target="_blank" >Github</a>
+        </li>
+    </ul>
+
+
+
+
+{% endblock %}

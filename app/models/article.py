@@ -180,7 +180,16 @@ class Article(Base):
         return '<Article %r>' % (self.title)
 
     def __str__(self):
-        return self.title
+        return self.title\
+
+
+    @property
+    def year(self):
+        return int(self.created.year)
+
+    @property
+    def month_and_day(self):
+        return str(self.created.month) + "-" + str(self.created.day)
 
     @property
     def link(self):

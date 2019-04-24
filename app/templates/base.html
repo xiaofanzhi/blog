@@ -4,15 +4,15 @@
     {% block html %}
         <head>
         {% block head %}
-            <title>{% block title %}Adison's Room{% endblock title %}</title>
+            <title>{% block title %}Fzx Blog{% endblock title %}</title>
 
             {%- block metas %}
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
             {%- endblock metas %}
             {%- block styles %}
-                 <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}"
+                 <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}"
                           type="image/x-icon">
-                <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/x-icon">
+                <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
                 <link rel="stylesheet"
                           href="{{ url_for('static', filename='css/default.css', _external=True) }}">
                 <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css', _external=True) }}">
@@ -29,8 +29,8 @@
 
    		                <div class="header-content twelve columns">
 
-		                    <h1 id="logo-text"><a href="{{ url_for('web.index') }}" title="">Keep It Simple.</a></h1>
-				                <p id="intro">Put your awesome slogan here...</p>
+		                    <h1 id="logo-text"><a href="{{ url_for('web.index') }}" title="">Fzx Blog.</a></h1>
+				                <p id="intro">make endeavor</p>
 			            </div>
 	                </div>
 
@@ -42,9 +42,9 @@
 
 			   	            <ul id="nav" class="nav">
                                 <li><a href="{{ url_for('web.index') }}">首页</a></li>
-                                <li><a href="demo.html">归档</a></li>
+                                <li><a href="{{ url_for('web.archives') }}">归档</a></li>
                                 <li><a href="archives.html">留言</a></li>
-                                <li class="has-children"><a href="single.html">关于</a>
+                                <li class="has-children"><a href="{{ url_for('web.about') }}">关于</a>
 							<ul>
 	                  </ul>
 			      	</li>
@@ -105,7 +105,7 @@
                                     <h3>标签</h3>
                                     <div class="tagcloud group">
                                         {% for tag in tag_lists() %}
-                                            <a href="{{ tag.link|e }}" title="{{ tag.name }}">{{ tag.name|e }}</a>
+                                            <a style="color: green" href="{{ tag.link|e }}" title="{{ tag.name }}">{{ tag.name|e }}</a>
                                         {% endfor %}
                                     </div>
                              </div>
@@ -116,7 +116,7 @@
                                     <ul class="link-list">
                                         {% for article in get_top_articles() %}
                                             <li><a href="{{ article.link|e }}"
-                                                   title="{{ article.title }}">{{ article.title|e }}</a>
+                                                   title="{{ article.title }}">{{ article.title|e }}&nbsp;&nbsp;&nbsp;</a>
                                             </li>
                                         {% endfor %}
                                     </ul>

@@ -8,4 +8,6 @@ from app.web import article
 from app.web import categorie
 from app.web import tag
 from app.web import hits
+from app.web import about
+from app.web import archive
 from app.admin.views import ArticleAdmin
