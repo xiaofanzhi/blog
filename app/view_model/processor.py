@@ -29,9 +29,8 @@ def utility_processor():
         return _query.all()
 
         # 最新文章列表
-
     def get_latest_articles(limit=8):
-        _query = Article.query.filter_by(published=True)
+        _query = Article.query.filter_by(published=True).order_by(Article.last_modified.desc())
         return _query.limit(int(limit)).all()
 
     def get_top_articles(days=365, limit=5):

@@ -10,6 +10,7 @@ from flask_login import login_user, login_required
 
 @web.route('/')
 def index():
+    x  =request
     page = request.args.get('page',1,type=int)
     pagination = Article.query.order_by(
         Article.created.desc()).paginate(page,per_page=current_app.config['PER_PAGE'],
@@ -50,3 +51,23 @@ def prev_article(article):
         next_post = articles[articles.index(article)+1]
         return next_post
     return None
+
+
+
+@web.route('/search/')
+def search():
+    page = int(request.args.get('page',1))
+    keyword = request.args.get('keyword',None)
+    pagination = None
+    articles = None
+    if keyword:
+        pagination = Article.query.search(keyword).order_by(
+            Article.created.desc()).paginate(
+                page,per_page=current_app.config['PER_PAGE'],
+                error_out=False)
+        articles = pagination.items
+
+    return render_template('index.html',
+                           articles=articles,
+                           keyword=keyword,
+                           pagination=pagination, endpoint='.index')

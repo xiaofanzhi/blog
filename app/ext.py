@@ -6,6 +6,17 @@ from flask_moment import Moment
 
 
 
+
+def keywords_split(keywords):
+    return keywords.replace(u',', ' ') \
+        .replace(u';', ' ') \
+        .replace(u'+', ' ') \
+        .replace(u'；', ' ') \
+        .replace(u'，', ' ') \
+        .replace(u'　', ' ') \
+        .split(' ')
+
+
 login_manager = LoginManager()
 bootstrap = Bootstrap()
 moment = Moment()

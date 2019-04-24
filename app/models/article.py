@@ -1,4 +1,7 @@
+from functools import reduce
+
 import bleach
+from flask_sqlalchemy import BaseQuery
 from markdown import markdown
 from pip._internal.utils.misc import enum
 from sqlalchemy.orm import relationship
@@ -8,7 +11,7 @@ from flask import current_app, request, url_for
 from flask_login import UserMixin
 from sqlalchemy import Column, Integer, String, Text, Boolean,DateTime,ForeignKey,Table
 import re
-from  app.ext import db
+from app.ext import db, keywords_split
 from .auth import User
 from datetime import datetime
 from jinja2.filters import do_striptags, do_truncate
@@ -134,9 +137,23 @@ class Source(Base):
 
 
 
+class ArticleQuery(BaseQuery):
+
+    def search(self, keyword):
+        criteria = []
+
+        for keyword in keywords_split(keyword):
+            keyword = u'%{0}%'.format(keyword)
+            criteria.append(db.or_(Article.title.ilike(keyword), ))
+
+        q = reduce(db.or_, criteria)
+        return self.filter_by(published=True).filter(q)
+
+
+
 class Article(Base):
     __tablename__ = 'articles'
-
+    query_class = ArticleQuery
     # per_page = current_app.config['PER_PAGE']
 
     id = Column(Integer,primary_key=True,autoincrement=True)
@@ -167,7 +184,6 @@ class Article(Base):
 
     @property
     def link(self):
-        # return url_for('web.article', id=self.id, _external=True)
         return url_for('web.article',id=self.id, _external=True)
 
     @property
@@ -224,6 +240,9 @@ class Article(Base):
 
 db.event.listen(Article.content, 'set', Article.on_change_content)
 db.event.listen(Article, 'before_insert', Article.before_insert)
+
+
+
 
 
 

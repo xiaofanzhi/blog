@@ -65,10 +65,10 @@
                         </div>
 
                         <div id="sidebar" class="four columns">
+
                             <div class="widget widget_search">
                                     <h3>Search</h3>
-                                     <form action="#">
-{#                                    <form action="{{ url_for('main.search') }}" method="get">#}
+                                    <form action="{{ url_for('web.search') }}" method="get">
                                         <input type="text" value="搜索..." name="keyword" id="keyword"
                                                onblur="if(this.value == '') { this.value = '搜索...'; }"
                                                onfocus="if (this.value == '搜索...') { this.value = ''; }"
@@ -76,15 +76,6 @@
                                         <input type="submit" value="" class="submit-search">
                                     </form>
                             </div>
-{#                            <div class="widget widget_search">#}
-{#                                <h3>Search</h3>#}
-{#                                <form action="#">#}
-{#                                    <input type="text" value="Search here..." onblur="if(this.value == '') { this.value = 'Search here...'; }" onfocus="if (this.value == 'Search here...') { this.value = ''; }" class="text-search">#}
-{#                                    <input type="submit" value="" class="submit-search">#}
-{#                                </form>#}
-{#                            </div>#}
-
-
 
                             <div class="widget widget_categories group">
                                     <h3>分类</h3>
@@ -120,7 +111,7 @@
                              </div>
 
 
-                                <div class="widget widget_popular">
+                            <div class="widget widget_popular">
                                     <h3>热门文章</h3>
                                     <ul class="link-list">
                                         {% for article in get_top_articles() %}
@@ -132,7 +123,7 @@
                                 </div>
 
                         </div>
-   	                </div>
+                    </div>
                  {% endblock %}
                 </div>
 

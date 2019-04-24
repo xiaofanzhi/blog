@@ -29,14 +29,14 @@
                 {% endif %}
             </p>
         </div>
-{#        {% if article.tags %}#}
-{#            <p class="tags">#}
-{#                <span>标签</span>：#}
-{#                {% for tag in article.tags %}#}
-{#                    <a href="{{ url_for('main.tag',name =tag.name ) }}" title="" rel="tag">{{ tag.name }}</a>&nbsp;#}
-{#                {% endfor %}#}
-{#            </p>#}
-{#        {% endif %}#}
+        {% if article.tags %}
+            <p class="tags">
+                <span>标签</span>：
+                {% for tag in article.tags %}
+                    <a href="{{ url_for('web.tag',name =tag.name ) }}" title="" rel="tag">{{ tag.name }}</a>&nbsp;
+                {% endfor %}
+            </p>
+        {% endif %}
 
         <ul class="post-nav group">
             {% if prev_article %}
