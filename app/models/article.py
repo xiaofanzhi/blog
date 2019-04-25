@@ -1,3 +1,4 @@
+import hashlib
 from functools import reduce
 
 import bleach
@@ -148,6 +149,77 @@ class ArticleQuery(BaseQuery):
 
         q = reduce(db.or_, criteria)
         return self.filter_by(published=True).filter(q)
+# 判断是否有人回复？？？
+class Follow(Base):
+    __tablename__ = 'follows'
+    follower_id = Column(Integer, ForeignKey('comments.id'),
+                            primary_key=True)
+    followed_id = Column(Integer, ForeignKey('comments.id'),
+                            primary_key=True)
+
+class Comment(Base):
+    __tablename__ = 'comments'
+    id = Column(Integer,primary_key=True)
+    content = Column(Text)
+    created = Column(DateTime, default=datetime.utcnow)
+    commenter_name = Column(String(64))
+    commenter_email = Column(String(64))
+    # 头像相关
+    avatar_hash = Column(String(32))
+
+    article_id = Column(Integer,ForeignKey('articles.id'))
+    disabled = Column(Boolean, default=False)
+    comment_type = Column(db.String(64), default='comment')
+    reply_to = Column(String(128), default='notReply')
+
+
+    followed = db.relationship('Follow',
+                               foreign_keys=[Follow.follower_id],
+                               backref=db.backref('follower', lazy='joined'),
+                               lazy='dynamic',
+                               cascade='all, delete-orphan')
+    followers = db.relationship('Follow',
+                                foreign_keys=[Follow.followed_id],
+                                backref=db.backref('followed', lazy='joined'),
+                                lazy='dynamic',
+                                cascade='all, delete-orphan')
+
+    @property
+    def replys(self):
+        return [i.follower for i in self.followers]
+
+
+
+    # 根据email 生成图像
+    def __init__(self, **kwargs):
+        super(Comment, self).__init__(**kwargs)
+        if self.commenter_email is not None and self.avatar_hash is None:
+            self.avatar_hash = hashlib.md5(
+                self.commenter_email.encode('utf-8')).hexdigest()
+
+
+
+    def gravatar(self, size=40, default='identicon', rating='g'):
+        if request.is_secure:
+            url = 'https://secure.gravatar.com/avatar'
+        else:
+            url = 'http://www.gravatar.com/avatar'
+        hash = self.avatar_hash or hashlib.md5(
+            self.commenter_email.encode('utf-8')).hexdigest()
+        return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
+            url=url, hash=hash, size=size, default=default, rating=rating)
+
+
+    def followed_name(self):
+        if self.is_reply():
+            return self.followed.first().followed.commenter_name
+
+
+    def __repr__(self):
+        return '<Comment %r>' % self.id
+
+    def __str__(self):
+        return self.id
 
 
 
@@ -173,7 +245,7 @@ class Article(Base):
     tags = relationship(Tag, secondary=article_tags_table, backref=db.backref("articles"))
     category_id = Column(Integer(), ForeignKey(Category.id), nullable=False)
     source_id = Column(Integer, ForeignKey(Source.id), nullable=False, )
-
+    comments = db.relationship('Comment', backref='article', lazy='dynamic')
 
 
     def __repr__(self):

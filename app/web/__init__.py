@@ -10,4 +10,6 @@ from app.web import tag
 from app.web import hits
 from app.web import about
 from app.web import archive
+from app.web import comment
+from app.web import error
 from app.admin.views import ArticleAdmin

@@ -23,6 +23,7 @@ faker = "*"
 forgery-py = "*"
 bleach = "*"
 markdown = "==2.6.11"
+flask-wtf = "*"
 
 [requires]
 python_version = "3.6"

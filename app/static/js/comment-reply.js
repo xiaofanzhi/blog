@@ -11,13 +11,13 @@ $("#content").on('input', function () {
     }
 })
 
-function go_to_reply(id, author_name) {
+function go_to_reply(id, commenter_name) {
     var nav = $('#submit-comment');
     if (nav.length) {
         $('html, body').animate({scrollTop: nav.offset().top}, 800);
         $('#follow_id').val(id);
-        $('#follow').val(author_name);
-        $('#content').text("@" + author_name + " ")
+        $('#follow').val(commenter_name);
+        $('#content').text("@" + commenter_name + " ")
     }
 }
 

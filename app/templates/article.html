@@ -3,9 +3,7 @@
 {% block main %}
     {{ super() }}
     <article class="entry">
-
         <header class="entry-header">
-
             <h2 class="entry-title">
                 {{ article.title }}
             </h2>
@@ -55,26 +53,26 @@
         <!-- Comments
             ================================================== -->
         <div id="comments">
-{#            {% if counts %}#}
-{#                <h3>{{ counts }} 评论</h3>#}
-{#            {% endif %}#}
-{#            <!-- commentlist -->#}
-{##}
-{#            {% include '_comments.html' %}#}
-{#            {% if counts %}#}
-{#                {{ macros.pagination_widget(pagination, endpoint, id=id, fragment='#comments') }}#}
-{#            {% endif %}#}
-{##}
-{##}
-{#            <!-- respond -->#}
-{#            <div class="respond" id="submit-comment">#}
-{##}
-{#                <h3>评论</h3>#}
-{##}
-{#                <!-- form -->#}
-{#                {% include "_submit_comment.html" %}#}
-{##}
-{#            </div> <!-- Respond End -->#}
+            {% if counts %}
+                <h3>{{ counts }} 评论</h3>
+            {% endif %}
+            <!-- commentlist -->
+
+            {% include '_comments.html' %}
+            {% if counts %}
+                {{ macros.pagination_widget(pagination, endpoint, id=id, fragment='#comments') }}
+            {% endif %}
+
+
+            <!-- respond -->
+            <div class="respond" id="submit-comment">
+
+                <h3>评论</h3>
+
+                <!-- form -->
+                {% include "_submit_comment.html" %}
+
+            </div> <!-- Respond End -->
 
         </div>  <!-- Comments End -->
 
