@@ -1,11 +1,11 @@
 from random import randint,seed
-from sqlalchemy.exc import IntegrityError
+
 from faker import Faker
 
 from app import creat_app
 from app.ext import db
 from app.models.article import Article,Comment
-from app.models.auth import User
+
 import forgery_py
 fake=Faker()
 

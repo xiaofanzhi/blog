@@ -1,5 +1,5 @@
-from random import randint,seed
-from sqlalchemy.exc import IntegrityError
+from random import randint
+
 from faker import Faker
 
 from app import creat_app

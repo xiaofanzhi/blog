@@ -7,13 +7,13 @@ from .view_model.processor import utility_processor
 from app.models import *
 from flask_bootstrap import Bootstrap
 
-def creat_app():
+from .setting import config
+
+
+def creat_app(config_name):
     app = Flask(__name__)
-    app.config.from_object('app.secure')
-    app.config.from_object('app.setting')
-
+    app.config.from_object(config[config_name])
     bootstrap = Bootstrap(app)
-
     db.init_app(app)
     db.create_all(app=app)
 

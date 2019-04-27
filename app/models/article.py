@@ -4,12 +4,10 @@ from functools import reduce
 import bleach
 from flask_sqlalchemy import BaseQuery
 from markdown import markdown
-from pip._internal.utils.misc import enum
 from sqlalchemy.orm import relationship
 
 from app.models.base import Base
-from flask import current_app, request, url_for
-from flask_login import UserMixin
+from flask import request, url_for
 from sqlalchemy import Column, Integer, String, Text, Boolean,DateTime,ForeignKey,Table
 import re
 from app.ext import db, keywords_split
@@ -161,7 +159,7 @@ class Comment(Base):
     __tablename__ = 'comments'
     id = Column(Integer,primary_key=True)
     content = Column(Text)
-    created = Column(DateTime, default=datetime.utcnow)
+    created = Column(DateTime, default=datetime.now)
     commenter_name = Column(String(64))
     commenter_email = Column(String(64))
     # 头像相关

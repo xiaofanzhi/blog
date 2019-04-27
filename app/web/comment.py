@@ -1,8 +1,7 @@
 from . import web
 from app.form.comment_form import CommentForm
-from flask import current_app, abort
-from flask import render_template,request,url_for,redirect,flash
-from app.models.auth import User
+from flask import current_app
+from flask import render_template,request
 from app.models.article import Follow,Comment
 from app.ext import db
 

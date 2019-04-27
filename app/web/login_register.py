@@ -3,8 +3,8 @@ from app.form.login_register import RegisterForm,LoginForm
 from flask import render_template,request,url_for,redirect,flash
 from app.models.auth import User
 from app.ext import db
-# 登录用
-from flask_login import login_user, login_required
+
+from flask_login import login_user
 
 
 @web.route('/login', methods=['GET', 'POST'])

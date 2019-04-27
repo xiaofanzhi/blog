@@ -2,7 +2,7 @@ import bleach
 from markdown import markdown
 
 from app.models.base import Base
-from flask import current_app, request
+from flask import request
 from flask_login import UserMixin
 from sqlalchemy import Column,Integer,String,Text
 from werkzeug.security import generate_password_hash,check_password_hash
