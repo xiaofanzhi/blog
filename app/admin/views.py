@@ -156,6 +156,7 @@ class ArticleAdmin(sqla.ModelView):
 class CategoryAdmin(sqla.ModelView):
     column_list = ('id','name', 'introduction', 'order')
     column_searchable_list = ('name',)
+    form_excluded_columns = ('articles',)
     column_labels = dict(
         name=('名称'),
         order=('次序'),
@@ -172,13 +173,16 @@ class CategoryAdmin(sqla.ModelView):
 
 # 标签
 class TagAdmin(sqla.ModelView):
-    column_list = ('id','name','articles')
+    column_list = ('id','name')
     column_searchable_list = ('name',)
+
+    # 不想显示的字段
+    form_excluded_columns = ('last_modified','articles')
 
     column_labels = dict(
         id = ('id号'),
         name=('名称'),
-        articles = ('对应文章')
+        # articles = ('对应文章')
     )
 
     form_widget_args = {

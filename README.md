@@ -12,6 +12,7 @@
 
 
 **`虚拟环境`**
+虚拟环境用pipenv
 
 开启 pipenv shell
 
@@ -28,8 +29,10 @@
 
 
 
-**文章相关**
+**相关**
 
-- 文章列表展示
+
 - Flask-Admin 修改文章集成[editor.md](https://github.com/pandao/editor.md) Markdown编辑器
 
+- 数据库密码提前在环境中设定 Ubuntu：/etc/profile中
+    
