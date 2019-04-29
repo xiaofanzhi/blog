@@ -210,3 +210,35 @@ class SourceAdmin(sqla.ModelView):
 
     def is_accessible(self):
         return login.current_user.is_authenticated
+
+
+class CommentAdmin(sqla.ModelView):
+    can_create = False
+    column_list = (
+        'content', 'created', 'commenter_name', 'article_id',
+        'commenter_email', 'disabled', 'comment_type', 'reply_to')
+    form_excluded_columns = ('avatar_hash')
+    column_searchable_list = ('article_id', 'comment_type')
+    column_formatters = dict(created=format_datetime)
+    form_edit_rules = (
+        'disabled', 'content',
+    )
+    form_overrides = dict(
+        content=TextAreaField)
+
+    form_widget_args = {
+        'content': {'style': 'width:680px; height:80px;'},
+    }
+    olumn_labels = dict(
+        content=_('内容'),
+        commenter_name=_('评论人'),
+        commenter_email=_('评论邮件'),
+        article_id=_('文章 id'),
+        disabled=_('禁止'),
+        comment_type=_('类型'),
+        reply_to=_('回复'),
+        created=_('创建时间'),
+    )
+
+    def is_accessible(self):
+        return login.current_user.is_authenticated
