@@ -25,7 +25,7 @@ def login():
     return render_template('signin.html',form=form)
 
 
-@web.route('/register',methods=['GET', 'POST'])
+# @web.route('/register',methods=['GET', 'POST'])
 def register():
     form = RegisterForm(request.form)
     if request.method=='POST' and form.validate():
