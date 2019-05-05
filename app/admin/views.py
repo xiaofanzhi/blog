@@ -229,7 +229,7 @@ class CommentAdmin(sqla.ModelView):
     form_widget_args = {
         'content': {'style': 'width:680px; height:80px;'},
     }
-    olumn_labels = dict(
+    column_labels = dict(
         content=_('内容'),
         commenter_name=_('评论人'),
         commenter_email=_('评论邮件'),
