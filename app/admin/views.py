@@ -4,7 +4,6 @@ from flask_admin import expose
 from flask import  request, redirect, url_for, flash,current_app,Response
 from flask_login import current_user, login_user
 from werkzeug.utils import secure_filename
-from flask_babelex import lazy_gettext as _
 from app.admin.extras import allowed_photo, random_str,format_datetime
 from app.form.login_register import AdminLoginForm
 
@@ -230,14 +229,14 @@ class CommentAdmin(sqla.ModelView):
         'content': {'style': 'width:680px; height:80px;'},
     }
     column_labels = dict(
-        content=_('内容'),
-        commenter_name=_('评论人'),
-        commenter_email=_('评论邮件'),
-        article_id=_('文章 id'),
-        disabled=_('禁止'),
-        comment_type=_('类型'),
-        reply_to=_('回复'),
-        created=_('创建时间'),
+        content=('内容'),
+        commenter_name=('评论人'),
+        commenter_email=('评论邮件'),
+        article_id=('文章 id'),
+        disabled=('禁止'),
+        comment_type=('类型'),
+        reply_to=('回复'),
+        created=('创建时间'),
     )
 
     def is_accessible(self):
